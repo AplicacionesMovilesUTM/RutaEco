@@ -1,0 +1,7 @@
+{
+  "name": "RutaEco",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
