@@ -3,9 +3,8 @@ import { Capacitor } from '@capacitor/core';
 import {
   Camera,
   CameraSource,
-  MediaTypeSelection,
+  CameraResultType,
   type CameraPermissionState,
-  type MediaResult,
 } from '@capacitor/camera';
 
 @Injectable({
@@ -33,7 +32,7 @@ export class CameraService {
   }
 
   /**
-   * Safe web fallback to pick files as Base64 in browsers without requiring native plugins or PWA elements.
+   * Safe web fallback to pick files as Base64 in browsers.
    */
   private pickImageWeb(): Promise<string | null> {
     return new Promise((resolve) => {
@@ -51,7 +50,6 @@ export class CameraService {
         const reader = new FileReader();
         reader.onload = () => {
           const result = reader.result as string;
-          // Extract base64 part from data URL
           const base64 = result.split(',')[1] || null;
           resolve(base64);
         };
@@ -75,41 +73,22 @@ export class CameraService {
     try {
       await this.ensurePermissions(source);
 
-      const mediaResult =
-        source === CameraSource.Camera
-          ? await Camera.takePhoto({
-              quality: 90,
-              correctOrientation: true,
-              saveToGallery: false,
-              includeMetadata: false,
-            })
-          : await this.pickImageFromGallery();
+      // Using Camera.getPhoto is standard and returns Base64 directly
+      const photoResult = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: source,
+      });
 
-      return this.extractBase64(mediaResult);
+      return photoResult.base64String || null;
     } catch (error) {
       if (this.isCancellation(error)) {
         return null;
       }
-
+      console.error('Error al capturar la imagen:', error);
       throw error;
     }
-  }
-
-  private async pickImageFromGallery(): Promise<MediaResult> {
-    const results = await Camera.chooseFromGallery({
-      mediaType: MediaTypeSelection.Photo,
-      allowMultipleSelection: false,
-      includeMetadata: false,
-      quality: 90,
-      editable: 'no',
-    });
-
-    const [mediaResult] = results.results;
-    if (!mediaResult) {
-      throw new Error('No se seleccionó ninguna imagen');
-    }
-
-    return mediaResult;
   }
 
   private async ensurePermissions(source: CameraSource): Promise<void> {
@@ -128,10 +107,10 @@ export class CameraService {
           throw new Error('Permiso de cámara denegado');
         }
       }
-
       return;
     }
 
+    // Check photos / gallery permission
     if (!this.hasPermission(permissions.photos)) {
       const requested = await Camera.requestPermissions({
         permissions: ['photos'],
@@ -144,10 +123,6 @@ export class CameraService {
 
   private hasPermission(state: CameraPermissionState): boolean {
     return state === 'granted' || state === 'limited';
-  }
-
-  private extractBase64(mediaResult: MediaResult): string | null {
-    return mediaResult.thumbnail ?? null;
   }
 
   private isCancellation(error: unknown): boolean {

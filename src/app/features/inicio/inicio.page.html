@@ -27,7 +27,10 @@
             <span>Progreso de Nivel</span>
             <span>{{ stats.points }} / {{ stats.nextLevelPoints }} PTS</span>
           </div>
-          <ion-progress-bar [value]="stats.progress" color="success"></ion-progress-bar>
+          <ion-progress-bar
+            [value]="stats.progress"
+            color="success"
+          ></ion-progress-bar>
         </div>
 
         <ion-grid class="quick-stats">
@@ -57,7 +60,12 @@
 
     <!-- Scan Call to Action -->
     <div class="cta-container">
-      <ion-button expand="block" routerLink="/tabs/escanear" color="success" class="scan-cta-btn">
+      <ion-button
+        expand="block"
+        routerLink="/tabs/escanear"
+        color="success"
+        class="scan-cta-btn"
+      >
         <ion-icon name="camera-outline" slot="start"></ion-icon>
         Escanear Nuevo Residuo
       </ion-button>

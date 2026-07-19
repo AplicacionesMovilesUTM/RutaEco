@@ -2,7 +2,6 @@ import { Component, EnvironmentInjector, inject } from '@angular/core';
 import {
   IonIcon,
   IonLabel,
-  IonRouterOutlet,
   IonTabBar,
   IonTabButton,
   IonTabs,
@@ -22,7 +21,6 @@ import {
   styleUrls: ['./dashboard.page.scss'],
   imports: [
     IonTabs,
-    IonRouterOutlet,
     IonTabBar,
     IonTabButton,
     IonIcon,
