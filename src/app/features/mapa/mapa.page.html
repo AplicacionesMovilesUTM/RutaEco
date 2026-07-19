@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Centros de Reciclaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="map-content">
+  <!-- Map container -->
+  <div id="map" class="map-container"></div>
+
+  <!-- Loading State Overlay -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <ion-spinner name="crescent" color="success"></ion-spinner>
+    <p>Obteniendo tu ubicación...</p>
+  </div>
+
+  <!-- Error State Overlay -->
+  <div *ngIf="errorMessage" class="error-overlay">
+    <p>{{ errorMessage }}</p>
+    <ion-button color="success" size="small" (click)="loadMapAndLocation()">
+      Reintentar
+    </ion-button>
+  </div>
+
+  <!-- Recommended Center Card Overlay -->
+  <ion-card *ngIf="closestCenter" class="recommendation-card">
+    <ion-card-header>
+      <div class="card-header-flex">
+        <ion-badge color="success">El más cercano ({{ closestCenter.distanceKm }} km)</ion-badge>
+        <ion-badge [color]="closestCenter.isOpen ? 'success' : 'medium'" class="status-badge">
+          {{ closestCenter.isOpen ? 'Abierto' : 'Cerrado' }}
+        </ion-badge>
+      </div>
+      <ion-card-title>{{ closestCenter.name }}</ion-card-title>
+      <ion-card-subtitle>{{ closestCenter.address }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="category-text">
+        <strong>Materiales aceptados:</strong> {{ closestCenter.category }}
+      </p>
+      <ion-button
+        expand="block"
+        color="success"
+        size="small"
+        fill="solid"
+        (click)="openNavigation(closestCenter)"
+      >
+        <ion-icon name="navigate-outline" slot="start"></ion-icon>
+        Cómo llegar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

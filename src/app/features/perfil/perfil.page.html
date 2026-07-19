@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding profile-content">
+  <ng-container *ngIf="user$ | async as user">
+    <ng-container *ngIf="stats$ | async as stats">
+      <!-- Profile Header / Avatar Section -->
+      <div class="profile-header">
+        <ion-avatar class="user-avatar">
+          <div class="avatar-fallback">
+            {{ user.name.slice(0, 2).toUpperCase() }}
+          </div>
+        </ion-avatar>
+        <h2 class="user-name">{{ user.name }}</h2>
+        <ion-badge color="success" class="level-badge">{{ stats.level }}</ion-badge>
+      </div>
+
+      <!-- Quick Stats Row -->
+      <ion-grid class="stats-grid">
+        <ion-row>
+          <ion-col size="6">
+            <div class="stat-item">
+              <span class="number">{{ stats.scans }}</span>
+              <span class="label">Escaneos</span>
+            </div>
+          </ion-col>
+          <ion-col size="6">
+            <div class="stat-item">
+              <span class="number">{{ stats.points }}</span>
+              <span class="label">Eco-Puntos</span>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <!-- Account Info List -->
+      <h2 class="section-title">Información de Cuenta</h2>
+      <ion-card class="info-card">
+        <ion-list lines="none">
+          <ion-item>
+            <ion-icon name="mail-outline" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <p>Correo Electrónico</p>
+              <h3>{{ user.email }}</h3>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="calendar-outline" slot="start" color="success"></ion-icon>
+            <ion-label>
+              <p>Miembro Desde</p>
+              <h3>{{ user.createdAt | date:'longDate' }}</h3>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card>
+    </ng-container>
+  </ng-container>
+
+  <!-- Achievements / Badges Section -->
+  <h2 class="section-title">Logros y Medallas</h2>
+  <ng-container *ngIf="achievements$ | async as achievements">
+    <div class="achievements-list">
+      <ion-card
+        class="achievement-card"
+        *ngFor="let ach of achievements"
+        [class.locked]="!ach.unlocked"
+      >
+        <ion-card-content>
+          <div class="ach-flex">
+            <div class="ach-emoji">{{ ach.emoji }}</div>
+            <div class="ach-info">
+              <h3>{{ ach.name }}</h3>
+              <p>{{ ach.description }}</p>
+              <ion-badge *ngIf="!ach.unlocked" color="medium" class="req-badge">
+                Reclama {{ ach.reqCount }} scans
+              </ion-badge>
+            </div>
+            <div class="ach-status" *ngIf="ach.unlocked">
+              <ion-icon name="checkmark-circle" color="success"></ion-icon>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-container>
+
+  <!-- Logout Action -->
+  <div class="action-footer">
+    <ion-button expand="block" color="danger" fill="clear" (click)="logout()" class="logout-btn">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      Cerrar Sesión
+    </ion-button>
+  </div>
+</ion-content>

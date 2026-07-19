@@ -1,0 +1,220 @@
+.eco-content {
+  --background: var(--ion-background-color, #f4f5f8);
+  padding-bottom: 96px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 24px 8px 12px 8px;
+  color: var(--ion-color-dark, #222);
+}
+
+/* Status & Rank Card */
+.status-card {
+  margin: 10px 0 20px 0;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: var(--ion-card-background, #fff);
+  border: 1px solid rgba(var(--ion-color-success-rgb, '45, 211, 111'), 0.15);
+
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .user-rank {
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 4px 0;
+    }
+    p {
+      font-size: 12px;
+      color: var(--ion-color-step-600, #666);
+      margin: 0;
+    }
+  }
+
+  .points-badge {
+    text-align: center;
+    background: rgba(var(--ion-color-success-rgb, '45, 211, 111'), 0.08);
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px dashed var(--ion-color-success, #2dd36f);
+
+    .points-number {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ion-color-success, #2dd36f);
+    }
+    p {
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 4px 0 0 0;
+      color: var(--ion-color-step-700, #444);
+    }
+  }
+
+  .progress-section {
+    margin-bottom: 16px;
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ion-color-step-600, #666);
+      margin-bottom: 6px;
+    }
+
+    ion-progress-bar {
+      height: 8px;
+      border-radius: 4px;
+    }
+  }
+
+  .quick-stats {
+    padding: 0;
+    margin-top: 10px;
+    border-top: 1px solid var(--ion-color-step-200, #eaeaea);
+    padding-top: 14px;
+
+    ion-col {
+      padding: 0;
+    }
+
+    .stat-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ion-icon {
+        font-size: 26px;
+        margin-right: 10px;
+      }
+
+      h3 {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0;
+        color: var(--ion-color-dark, #222);
+      }
+      p {
+        font-size: 11px;
+        color: var(--ion-color-step-600, #666);
+        margin: 0;
+      }
+    }
+  }
+}
+
+/* Call to Action Container */
+.cta-container {
+  margin: 16px 0;
+
+  .scan-cta-btn {
+    --border-radius: 12px;
+    --box-shadow: 0 4px 12px rgba(var(--ion-color-success-rgb, '45, 211, 111'), 0.3);
+    font-weight: 700;
+    height: 48px;
+    font-size: 15px;
+    margin: 0;
+  }
+}
+
+/* Materials Grid Breakdown */
+.materials-grid {
+  padding: 0;
+  margin: 0 -4px;
+
+  ion-col {
+    padding: 4px;
+  }
+
+  .material-card {
+    background: var(--ion-card-background, #fff);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--ion-color-step-150, #f0f0f0);
+    height: 100px;
+
+    .emoji {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    h4 {
+      font-size: 11px;
+      font-weight: 600;
+      margin: 0 0 6px 0;
+      color: var(--ion-color-step-800, #333);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    ion-badge {
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    // Custom borders to give high quality details
+    &.plastic { border-top: 3.5px solid #3880ff; }
+    &.paper { border-top: 3.5px solid #f4a261; }
+    &.glass { border-top: 3.5px solid #2dd36f; }
+    &.metal { border-top: 3.5px solid #92949c; }
+    &.other { border-top: 3.5px solid #5260ff; }
+  }
+}
+
+/* Eco Tips Cards */
+.tip-card {
+  margin: 10px 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  background: var(--ion-card-background, #fff);
+  border: 1px solid var(--ion-color-step-150, #f0f0f0);
+
+  ion-card-header {
+    padding: 12px 16px 8px 16px;
+  }
+
+  .tip-header {
+    display: flex;
+    align-items: center;
+
+    .tip-icon {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+
+    ion-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ion-color-dark, #222);
+    }
+  }
+
+  ion-card-content {
+    padding: 0 16px 14px 16px;
+    p {
+      font-size: 12.5px;
+      line-height: 1.4;
+      color: var(--ion-color-step-700, #444);
+      margin: 0;
+    }
+  }
+}

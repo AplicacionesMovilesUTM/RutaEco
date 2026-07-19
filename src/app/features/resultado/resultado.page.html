@@ -1,0 +1,123 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Resultado del Análisis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="result-content ion-padding">
+  <ng-container *ngIf="lastClassification$ | async as classification; else noResult">
+    <div class="result-wrapper">
+      <!-- Main Scanned Image Card -->
+      <ion-card class="image-card">
+        <ng-container *ngIf="lastImage$ | async as image; else serverImage">
+          <ion-img
+            [src]="'data:image/jpeg;base64,' + image"
+            alt="Residuo analizado"
+            class="result-img"
+          ></ion-img>
+        </ng-container>
+        <ng-template #serverImage>
+          <ion-img
+            *ngIf="classification.imageUrl"
+            [src]="classification.imageUrl"
+            alt="Residuo analizado"
+            class="result-img"
+          ></ion-img>
+        </ng-template>
+        <div class="material-overlay-badge">
+          <ion-icon name="leaf-outline"></ion-icon>
+          <span>{{ classification.material || 'Residuo' }}</span>
+        </div>
+      </ion-card>
+
+      <!-- Analysis Results Card -->
+      <ion-card class="details-card">
+        <ion-card-content>
+          <!-- Material Header -->
+          <div class="material-info-header">
+            <h1>{{ classification.material || 'Material desconocido' }}</h1>
+            <p class="type-text">Tipo: {{ classification.type || 'Sin tipo' }}</p>
+          </div>
+
+          <!-- Confidence Rating Bar -->
+          <div class="confidence-container">
+            <div class="confidence-labels">
+              <span>Precisión de Clasificación</span>
+              <span class="percentage">{{ classification.confidence }}%</span>
+            </div>
+            <ion-progress-bar
+              [value]="classification.confidence / 100"
+              color="success"
+              class="confidence-bar"
+            ></ion-progress-bar>
+          </div>
+
+          <!-- Key Meta Data Grid -->
+          <ion-grid class="meta-grid">
+            <ion-row>
+              <ion-col size="6">
+                <div class="meta-box container-box">
+                  <ion-icon name="trash-bin-outline" color="primary"></ion-icon>
+                  <span>Contenedor</span>
+                  <ion-badge [color]="getContainerColor(classification.container)">
+                    {{ classification.container || 'Sin dato' }}
+                  </ion-badge>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="meta-box time-box">
+                  <ion-icon name="time-outline" color="warning"></ion-icon>
+                  <span>Degradación</span>
+                  <h4 class="time-text">{{ classification.degradationTime || 'Sin dato' }}</h4>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <!-- Recommendations List -->
+          <div class="recommendations-section">
+            <div class="section-subtitle">
+              <ion-icon name="sparkles-outline" color="success"></ion-icon>
+              <h3>Recomendaciones</h3>
+            </div>
+
+            <ng-container *ngIf="classification.recommendations?.length; else emptyRecommendations">
+              <ul class="rec-list">
+                <li *ngFor="let rec of classification.recommendations">
+                  <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+                  <span>{{ rec }}</span>
+                </li>
+              </ul>
+            </ng-container>
+            <ng-template #emptyRecommendations>
+              <p class="empty-text">No hay recomendaciones de reciclaje disponibles para este residuo.</p>
+            </ng-template>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Actions Footer -->
+      <div class="actions-grid">
+        <ion-button expand="block" fill="outline" color="success" routerLink="/tabs/escanear" class="action-btn back-btn">
+          <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+          Escanear Otro
+        </ion-button>
+        <ion-button expand="block" color="success" routerLink="/tabs/mapa" class="action-btn map-btn">
+          <ion-icon name="map-outline" slot="start"></ion-icon>
+          Buscar Puntos
+        </ion-button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noResult>
+    <div class="no-result-container">
+      <div class="no-result-icon">🔍</div>
+      <h2>No hay análisis disponible</h2>
+      <p>Dirígete a la pestaña Escanear para tomar una fotografía de un residuo y clasificarlo.</p>
+      <ion-button expand="block" color="success" routerLink="/tabs/escanear" class="go-scan-btn">
+        Ir a Escanear
+      </ion-button>
+    </div>
+  </ng-template>
+</ion-content>

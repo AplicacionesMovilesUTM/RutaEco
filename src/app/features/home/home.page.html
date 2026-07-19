@@ -1,0 +1,57 @@
+<ion-content class="home-content ion-padding">
+  <div class="onboarding-wrapper">
+    <!-- Top Illustration (Premium Inline SVG) -->
+    <div class="illustration-container">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="eco-svg">
+        <!-- Background circle -->
+        <circle cx="100" cy="100" r="80" fill="#e6f4ea" opacity="0.8" />
+        <!-- Leaf 1 -->
+        <path d="M100,50 Q130,50 130,80 Q130,110 100,110 Q70,110 70,80 Q70,50 100,50 Z" fill="#10b981" />
+        <!-- Leaf 2 (Rotated/offset) -->
+        <path d="M115,70 Q140,75 135,100 Q130,125 105,120 Q80,115 85,90 Q90,65 115,70 Z" fill="#047857" opacity="0.9" />
+        <!-- Planet outline details -->
+        <circle cx="100" cy="100" r="60" stroke="#ffffff" stroke-width="3" fill="none" />
+        <path d="M45,100 Q100,130 155,100" stroke="#ffffff" stroke-width="2.5" fill="none" opacity="0.6" />
+        <path d="M55,75 Q100,105 145,75" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.6" />
+        <!-- Tiny stars -->
+        <circle cx="65" cy="65" r="3" fill="#34d399" />
+        <circle cx="140" cy="130" r="2.5" fill="#34d399" />
+        <circle cx="130" cy="55" r="4" fill="#10b981" />
+      </svg>
+    </div>
+
+    <!-- Text Content -->
+    <div class="text-container">
+      <h1 class="welcome-title">Bienvenido a <span class="brand-highlight">RutaEco</span></h1>
+      <p class="welcome-subtitle">
+        Tu asistente inteligente para clasificar residuos correctamente y encontrar los centros de reciclaje más cercanos de forma fácil.
+      </p>
+    </div>
+
+    <!-- Features Overview -->
+    <div class="features-list">
+      <div class="feature-item">
+        <span class="feature-icon">✨</span>
+        <div class="feature-text">
+          <h4>Clasificación por IA</h4>
+          <p>Toma una foto y deja que Gemini identifique el tipo de residuo.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📍</span>
+        <div class="feature-text">
+          <h4>Mapa de Puntos</h4>
+          <p>Encuentra contenedores y centros según tu posición GPS.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Button -->
+    <div class="button-container">
+      <ion-button expand="block" routerLink="/tabs" color="success" class="start-btn">
+        Comenzar Experiencia
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

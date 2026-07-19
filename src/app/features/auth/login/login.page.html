@@ -1,0 +1,60 @@
+<ion-content class="auth-content ion-padding">
+  <div class="auth-wrapper">
+    <!-- Header Logo & Title -->
+    <div class="auth-header">
+      <div class="logo-box">
+        <ion-icon name="leaf-outline" class="logo-icon"></ion-icon>
+      </div>
+      <h1 class="auth-title">RutaEco</h1>
+      <p class="auth-subtitle">Inicia sesión para continuar salvando el planeta</p>
+    </div>
+
+    <!-- Glassmorphic Form Card -->
+    <ion-card class="auth-card">
+      <ion-card-content>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <!-- Email Input -->
+          <div class="custom-input-group">
+            <ion-icon name="mail-outline" class="input-group-icon"></ion-icon>
+            <div class="input-field-wrapper">
+              <ion-input
+                formControlName="email"
+                type="email"
+                placeholder="Correo electrónico"
+                autocomplete="email"
+              ></ion-input>
+            </div>
+          </div>
+
+          <!-- Password Input -->
+          <div class="custom-input-group">
+            <ion-icon name="lock-closed-outline" class="input-group-icon"></ion-icon>
+            <div class="input-field-wrapper">
+              <ion-input
+                formControlName="password"
+                type="password"
+                placeholder="Contraseña"
+                autocomplete="current-password"
+              ></ion-input>
+            </div>
+          </div>
+
+          <!-- Error Alert -->
+          <ion-text color="danger" *ngIf="errorMessage" class="error-text">
+            <p>{{ errorMessage }}</p>
+          </ion-text>
+
+          <!-- Submit Button -->
+          <ion-button expand="block" type="submit" [disabled]="isLoading" class="auth-submit-btn">
+            {{ isLoading ? 'Ingresando...' : 'Iniciar Sesión' }}
+          </ion-button>
+
+          <!-- Switch Auth Link -->
+          <ion-button expand="block" fill="clear" color="success" routerLink="/registro" class="auth-switch-btn">
+            ¿No tienes cuenta? Regístrate
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

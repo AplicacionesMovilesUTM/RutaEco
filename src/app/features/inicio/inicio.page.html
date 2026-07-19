@@ -1,0 +1,122 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Mi Impacto Ecológico</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding eco-content">
+  <ng-container *ngIf="stats$ | async as stats">
+    <!-- User Level & Points Card -->
+    <ion-card class="status-card">
+      <ion-card-content>
+        <div class="header-section">
+          <div class="user-rank">
+            <ion-text color="success">
+              <h2>{{ stats.rank }}</h2>
+            </ion-text>
+            <p>Rango de Reciclaje</p>
+          </div>
+          <div class="points-badge">
+            <div class="points-number">{{ stats.points }}</div>
+            <p>Eco-Puntos</p>
+          </div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-label">
+            <span>Progreso de Nivel</span>
+            <span>{{ stats.points }} / {{ stats.nextLevelPoints }} PTS</span>
+          </div>
+          <ion-progress-bar [value]="stats.progress" color="success"></ion-progress-bar>
+        </div>
+
+        <ion-grid class="quick-stats">
+          <ion-row>
+            <ion-col size="6">
+              <div class="stat-box">
+                <ion-icon name="leaf-outline" color="success"></ion-icon>
+                <div>
+                  <h3>{{ stats.totalScans }}</h3>
+                  <p>Escaneos</p>
+                </div>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="stat-box">
+                <ion-icon name="trophy-outline" color="warning"></ion-icon>
+                <div>
+                  <h3>{{ stats.points }}</h3>
+                  <p>Puntos</p>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Scan Call to Action -->
+    <div class="cta-container">
+      <ion-button expand="block" routerLink="/tabs/escanear" color="success" class="scan-cta-btn">
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        Escanear Nuevo Residuo
+      </ion-button>
+    </div>
+
+    <!-- Material Breakdown Section -->
+    <h2 class="section-title">Residuos Clasificados</h2>
+    <ion-grid class="materials-grid">
+      <ion-row>
+        <ion-col size="4">
+          <div class="material-card plastic">
+            <span class="emoji">🥤</span>
+            <h4>Plástico</h4>
+            <ion-badge color="success">{{ stats.materials.plastic }}</ion-badge>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="material-card paper">
+            <span class="emoji">📦</span>
+            <h4>Papel/Cartón</h4>
+            <ion-badge color="success">{{ stats.materials.paper }}</ion-badge>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="material-card glass">
+            <span class="emoji">🍾</span>
+            <h4>Vidrio</h4>
+            <ion-badge color="success">{{ stats.materials.glass }}</ion-badge>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="material-card metal">
+            <span class="emoji">🥫</span>
+            <h4>Metal/Aluminio</h4>
+            <ion-badge color="success">{{ stats.materials.metal }}</ion-badge>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="material-card other">
+            <span class="emoji">♻️</span>
+            <h4>Otros</h4>
+            <ion-badge color="success">{{ stats.materials.other }}</ion-badge>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+
+  <!-- Eco Tips Section -->
+  <h2 class="section-title">Consejos Ecológicos</h2>
+  <ion-card class="tip-card" *ngFor="let tip of tips">
+    <ion-card-header>
+      <div class="tip-header">
+        <ion-icon [name]="tip.icon" color="success" class="tip-icon"></ion-icon>
+        <ion-card-title>{{ tip.title }}</ion-card-title>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ tip.description }}</p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Clasificador de Residuos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="scan-content ion-padding">
+  <div class="scan-wrapper">
+    <!-- Help Info -->
+    <div class="scan-header">
+      <h2>Clasificación Inteligente</h2>
+      <p>Captura una fotografía clara del residuo para que la inteligencia artificial identifique su tipo y método de reciclaje.</p>
+    </div>
+
+    <!-- Upload/Scan Box -->
+    <ion-card class="upload-box-card" (click)="takePhoto()" [disabled]="isProcessing">
+      <ion-card-content class="upload-box-content">
+        <ng-container *ngIf="!previewImage; else showPreview">
+          <div class="upload-placeholder">
+            <div class="icon-circle">
+              <ion-icon name="camera-outline"></ion-icon>
+            </div>
+            <h3>Tomar una Fotografía</h3>
+            <p>Presiona aquí para abrir la cámara</p>
+          </div>
+        </ng-container>
+        <ng-template #showPreview>
+          <div class="preview-container">
+            <ion-img [src]="previewImage" alt="Vista previa del residuo"></ion-img>
+            <div class="preview-overlay">
+              <ion-icon name="sparkles-outline"></ion-icon>
+              <span>Imagen capturada</span>
+            </div>
+          </div>
+        </ng-template>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Source Actions -->
+    <div class="actions-container">
+      <ion-button
+        expand="block"
+        color="success"
+        (click)="takePhoto()"
+        [disabled]="isProcessing"
+        class="scan-action-btn"
+      >
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        Usar Cámara
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="success"
+        (click)="pickFromGallery()"
+        [disabled]="isProcessing"
+        class="scan-action-btn gallery"
+      >
+        <ion-icon name="image-outline" slot="start"></ion-icon>
+        Subir de Galería
+      </ion-button>
+    </div>
+
+    <!-- Error Message -->
+    <ion-text color="danger" *ngIf="errorMessage" class="error-text">
+      <p>{{ errorMessage }}</p>
+    </ion-text>
+  </div>
+
+  <!-- Loading overlay during Gemini classification -->
+  <div class="loading-overlay-full" *ngIf="isProcessing">
+    <div class="loading-box">
+      <ion-spinner name="crescent" color="success"></ion-spinner>
+      <h3>Analizando residuo...</h3>
+      <p>Gemini AI está clasificando el material</p>
+    </div>
+  </div>
+</ion-content>

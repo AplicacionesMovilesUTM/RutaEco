@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Historial </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ng-container *ngIf="classifications$ | async as classifications">
+    <ng-container *ngIf="classifications.length > 0; else empty">
+      <ion-card *ngFor="let item of classifications">
+        <ion-img
+          *ngIf="item.imageUrl"
+          [src]="item.imageUrl"
+          alt="Residuo escaneado"
+          style="max-height: 180px; object-fit: cover; width: 100%;"
+        ></ion-img>
+        <ion-card-header>
+          <ion-card-title>
+            {{ item.material || 'Residuo desconocido' }}
+          </ion-card-title>
+
+          <ion-card-subtitle>
+            {{ item.createdAt | date:'medium' }}
+          </ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <p>
+            <strong>Tipo:</strong>
+            {{ item.type || 'Sin información' }}
+          </p>
+
+          <p>
+            <strong>Confianza:</strong>
+            {{ item.confidence }}%
+          </p>
+
+          <p>
+            <strong>Contenedor:</strong>
+            {{ item.container || 'Sin información' }}
+          </p>
+
+          <p>
+            <strong>Degradación:</strong>
+            {{ item.degradationTime || 'Sin información' }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #empty>
+    <ion-card class="empty-card">
+      <ion-card-content>
+        <p>No existen clasificaciones todavía.</p>
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+</ion-content>
