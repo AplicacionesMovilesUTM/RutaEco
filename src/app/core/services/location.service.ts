@@ -52,25 +52,40 @@ export class LocationService {
     },
   ];
 
-  /**
-   * Request and get the user's current GPS position.
-   */
-  async getCurrentPosition(): Promise<{ latitude: number; longitude: number } | null> {
+  async getCurrentPosition(): Promise<{
+    latitude: number;
+    longitude: number;
+  } | null> {
     try {
       if (Capacitor.isNativePlatform()) {
-        const permission = await Geolocation.checkPermissions();
-        if (permission.location !== 'granted') {
-          const request = await Geolocation.requestPermissions();
-          if (request.location !== 'granted') {
-            throw new Error('Permisos de ubicación no concedidos.');
-          }
+        // Request location permissions directly to force the OS dialog
+        const request = await Geolocation.requestPermissions();
+        if (
+          request.location !== 'granted' &&
+          request.coarseLocation !== 'granted'
+        ) {
+          throw new Error('Permisos de ubicación no concedidos.');
         }
       }
 
-      const position = await Geolocation.getCurrentPosition({
-        enableHighAccuracy: true,
-        timeout: 10000,
-      });
+      let position;
+      try {
+        // Try precise high accuracy first
+        position = await Geolocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 4000,
+        });
+      } catch (preciseError) {
+        console.warn(
+          'GPS preciso falló o expiró, usando ubicación aproximada de red:',
+          preciseError,
+        );
+        // Fallback to coarse network location (works indoors)
+        position = await Geolocation.getCurrentPosition({
+          enableHighAccuracy: false,
+          timeout: 8000,
+        });
+      }
 
       return {
         latitude: position.coords.latitude,
@@ -93,7 +108,12 @@ export class LocationService {
       let lng = center.longitude;
 
       // Distance from user to Quito (the default mock coords)
-      const distToDefault = this.calculateDistance(userLat, userLng, -0.18, -78.46);
+      const distToDefault = this.calculateDistance(
+        userLat,
+        userLng,
+        -0.18,
+        -78.46,
+      );
       if (distToDefault > 50) {
         // Shift centers to be near the user's actual location
         const offsets = [
@@ -125,7 +145,12 @@ export class LocationService {
   /**
    * Calculate distance between two coordinates in kilometers using Haversine formula.
    */
-  calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  calculateDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
+  ): number {
     const R = 6371; // Earth radius in km
     const dLat = this.deg2rad(lat2 - lat1);
     const dLon = this.deg2rad(lon2 - lon1);
@@ -145,3 +170,4 @@ export class LocationService {
     return deg * (Math.PI / 180);
   }
 }
+////////////////////////////////////////////////////////////////
