@@ -1,4 +1,4 @@
 export const GEMINI_CONFIG = {
-  apiKey: 'AIzaSyDLyin8StndAqcHPvO78hXWvF_aZbFJsAY',
-  model: 'gemini-2.5-flash',
+  apiKey: 'Tu_apikey',
+  model: 'gemini-flash-lite-latest', //este modelo es el mas recomendado por ser el mas gratuito
 };

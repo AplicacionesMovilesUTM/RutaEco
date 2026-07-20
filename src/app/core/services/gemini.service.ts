@@ -34,12 +34,6 @@ export class GeminiService {
   async classifyAndSave(imageBase64: string): Promise<ClassificationModel> {
     const classification = await this.classifyImage(imageBase64);
     let imageUrl = '';
-    try {
-      imageUrl = await this.firestoreService.uploadImage(imageBase64);
-      classification.imageUrl = imageUrl;
-    } catch (uploadError) {
-      console.error('Error uploading image to storage:', uploadError);
-    }
     await this.firestoreService.saveClassification(classification, imageUrl);
 
     this.lastImageSubject.next(imageBase64);
@@ -87,7 +81,12 @@ export class GeminiService {
     );
 
     if (!response.ok) {
-      throw new Error('Gemini request failed');
+      // throw new Error('Gemini request failed');
+      const error = await response.json();
+
+      console.error(error);
+
+      throw new Error(JSON.stringify(error, null, 2));
     }
 
     const payload = (await response.json()) as GeminiPayload;
